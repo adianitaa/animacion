@@ -1,31 +1,36 @@
 #!/bin/bash
 
-# Parámetros
-width=40          # Espacio horizontal disponible
-delay=0.1         # Tiempo entre cuadros (en segundos)
+delay=0.1
+width=40
 
-# Figura del stickman
-stickman=" o
-/|\\
-/ \\"
+# Función para mostrar al stickman caminando
+draw_stickman() {
+  local pos=$1
+  local leg=$((pos % 2))
+  local leg_style1="/ \\"
+  local leg_style2="\\ /"
+  local legs=$([[ $leg -eq 0 ]] && echo "$leg_style1" || echo "$leg_style2")
 
-# Bucle infinito de animación
-while true; do
-  # Ir hacia la derecha
-  for ((i=0; i<=width; i++)); do
-    clear
-    printf "%*s\n" $i " o"
-    printf "%*s\n" $i "/|\\"
-    printf "%*s\n" $i "/ \\"
-    sleep $delay
-  done
+  printf "%*s\n" $pos " o"
+  printf "%*s\n" $pos "/|\\"
+  printf "%*s\n" $pos "$legs"
+}
 
-  # Ir hacia la izquierda
-  for ((i=width; i>=0; i--)); do
-    clear
-    printf "%*s\n" $i " o"
-    printf "%*s\n" $i "/|\\"
-    printf "%*s\n" $i "/ \\"
-    sleep $delay
-  done
+# Función para mostrar un dinosaurio
+draw_dino() {
+  local pos=$1
+  printf "%*s\n" $pos "           __"
+  printf "%*s\n" $pos "          / _)"
+  printf "%*s\n" $pos "  .----./ /"
+  printf "%*s\n" $pos " /         /"
+  printf "%*s\n" $pos "/  (  | (  |"
+  printf "%*s\n" $pos "\\/\\|/\\|"
+}
+
+# Fase 1: El stickman camina feliz
+for ((i=0; i<20; i++)); do
+  clear
+  draw_stickman $i
+  sleep $delay
 done
+
